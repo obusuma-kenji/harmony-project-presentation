@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARMONY PROJECT - プレゼンテーション</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #1a1a2e;
+            overflow-x: hidden;
+        }
+        
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* スライド1: タイトル */
+        .slide1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .slide1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="music" patternUnits="userSpaceOnUse" width="20" height="20"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23music)"/></svg>');
+            animation: float 20s linear infinite;
+        }
+        
+        .slide1 h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .slide1 .subtitle {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .slide1 .tagline {
+            font-size: 1.2em;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* スライド2: 課題提起 */
+        .slide2 {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+        
+        .slide2 h2 {
+            font-size: 3em;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .problem-item {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .problem-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .problem-item h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .problem-item p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        /* スライド3: なぜ音楽か */
+        .slide3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .stat-large {
+            text-align: center;
+            background: rgba(255,255,255,0.15);
+            padding: 60px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-large:hover {
+            transform: scale(1.05);
+        }
+        
+        .stat-number-large {
+            font-size: 5em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .stat-label {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+        
+        /* スライド4: HARMONY PROJECT概要 */
+        .slide4 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+        
+        .project-overview {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .project-overview h2 {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            color: #2d3748;
+        }
+        
+        .overview-description {
+            font-size: 1.4em;
+            line-height: 1.8;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        
+        /* スライド5: 期待される効果 */
+        .slide5 {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+        }
+        
+        .effects-container {
+            max-width: 1400px;
+            width: 100%;
+        }
+        
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .effect-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 5px solid #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+        
+        .effect-card:nth-child(2) { border-top-color: #4ecdc4; }
+        .effect-card:nth-child(3) { border-top-color: #45b7d1; }
+        .effect-card:nth-child(4) { border-top-color: #96ceb4; }
+        .effect-card:nth-child(5) { border-top-color: #ffeaa7; }
+        .effect-card:nth-child(6) { border-top-color: #dda0dd; }
+        
+        .effect-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .effect-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        /* スライド6: 実施プロセス */
+        .slide6 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .process-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .process-step {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .process-step::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: #4facfe;
+            border-radius: 50%;
+            border: 4px solid white;
+        }
+        
+        .step-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+        
+        .step-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .step-period {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        /* スライド7: ROI・投資効果 */
+        .slide7 {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .roi-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .roi-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .roi-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .roi-number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .roi-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .roi-calculation {
+            background: rgba(255,255,255,0.2);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+        
+        /* スライド8: 成功事例・未来ビジョン */
+        .slide8 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+        }
+        
+        .vision-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .vision-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        .vision-card {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .vision-card h3 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            color: #2d3748;
+        }
+        
+        /* スライド9: Call to Action */
+        .slide9 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .cta-title {
+            font-size: 3.5em;
+            margin-bottom: 40px;
+        }
+        
+        .cta-description {
+            font-size: 1.4em;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* ナビゲーション */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .slide-indicator {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+            }
+            
+            .slide1 h1 {
+                font-size: 2.5em;
+            }
+            
+            .problems-grid,
+            .stats-container,
+            .features-grid,
+            .effects-grid,
+            .process-timeline,
+            .roi-stats,
+            .vision-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .slide2 h2,
+            .project-overview h2,
+            .cta-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- スライド1: タイトル -->
+        <div class="slide slide1 active">
+            <h1>🎵 HARMONY PROJECT</h1>
+            <div class="subtitle">SunoAI活用による革新的社内音楽コンテスト</div>
+            <div class="tagline">～組織の絆を音楽で紡ぐ～</div>
+        </div>
+
+        <!-- スライド2: 課題提起 -->
+        <div class="slide slide2">
+            <h2>🚨 現在の組織課題</h2>
+            <div class="problems-grid">
+                <div class="problem-item">
+                    <h3>🏢 縦割り組織の弊害</h3>
+                    <p>部署間のコミュニケーション不足により、情報共有や協働が困難になっている</p>
+                </div>
+                <div class="problem-item">
+                    <h3>👥 世代間ギャップ</h3>
+                    <p>異なる世代の価値観や働き方の違いから生じる理解不足と対立</p>
+                </div>
+                <div class="problem-item">
+                    <h3>🌍 多様性への対応</h3>
+                    <p>グローバル化により増加する外国人社員との文化的障壁</p>
+                </div>
+                <div class="problem-item">
+                    <h3>💡 創造性の低下</h3>
+                    <p>画一的な業務による従業員の創造性とイノベーション意識の停滞</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド3: なぜ音楽か -->
+        <div class="slide slide3">
+            <h2 style="font-size: 3em; margin-bottom: 50px; text-align: center;">🎶 なぜ今、音楽コンテストなのか？</h2>
+            <div class="stats-container">
+                <div class="stat-large">
+                    <span class="stat-number-large">95%</span>
+                    <div class="stat-label">の人が日頃音楽を聴く</div>
+                </div>
+                <div class="stat-large">
+                    <span class="stat-number-large">0</span>
+                    <div class="stat-label">特別なスキル不要</div>
+                </div>
+                <div class="stat-large">
+                    <span class="stat-number-large">3分</span>
+                    <div class="stat-label">で楽曲制作可能</div>
+                </div>
+                <div class="stat-large">
+                    <span class="stat-number-large">∞</span>
+                    <div class="stat-label">創造性の可能性</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド4: HARMONY PROJECT概要 -->
+        <div class="slide slide4">
+            <div class="project-overview">
+                <h2>🎵 HARMONY PROJECT</h2>
+                <div class="overview-description">
+                    最新のAI音楽生成技術「SunoAI」を活用した革新的な社内コンテスト。従業員一人ひとりが気軽に音楽制作に参加し、月間リスナーランキングで競い合うことで、組織全体の一体感と創造性を育む画期的な取り組みです。
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎼</div>
+                        <h3>簡単楽曲制作</h3>
+                        <p>SunoAIで誰でも3分で本格的な楽曲を作成可能</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>月間ランキング</h3>
+                        <p>リスナー数とエンゲージメントで公平な評価システム</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎁</div>
+                        <h3>魅力的な表彰</h3>
+                        <p>社長賞をはじめとした充実した表彰制度</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド5: 期待される効果 -->
+        <div class="slide slide5">
+            <div class="effects-container">
+                <h2 style="font-size: 3em; margin-bottom: 50px; text-align: center; color: #2d3748;">🚀 期待される効果</h2>
+                <div class="effects-grid">
+                    <div class="effect-card">
+                        <h3>🤝 社内コミュニケーション活性化</h3>
+                        <p>音楽という共通言語を通じて、部署や階層を超えた自然な対話が生まれ、横のつながりが構築されます。</p>
+                    </div>
+                    <div class="effect-card">
+                        <h3>🌈 多様性・インクルージョンの促進</h3>
+                        <p>国籍、性別、年齢に関係なく参加できる音楽制作により、相互理解と尊重の文化が育まれます。</p>
+                    </div>
+                    <div class="effect-card">
+                        <h3>🌍 世代間ギャップの解消</h3>
+                        <p>様々な世代の音楽的背景が混ざり合い、世代を超えた共感と理解が深まります。</p>
+                    </div>
+                    <div class="effect-card">
+                        <h3>💡 創造性とイノベーション意識の向上</h3>
+                        <p>AI技術を活用した創作体験により、業務においても新しい発想を生み出すマインドセットが醸成されます。</p>
+                    </div>
+                    <div class="effect-card">
+                        <h3>🏆 健全な競争意識の醸成</h3>
+                        <p>月間ランキングにより、楽しみながら切磋琢磨する文化が生まれ、組織全体の活力が向上します。</p>
+                    </div>
+                    <div class="effect-card">
+                        <h3>🎨 個性の発見と表現</h3>
+                        <p>従業員の創造的な一面が発見され、多面的な人材理解によるチームビルディングが可能になります。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド6: 実施プロセス -->
+        <div class="slide slide6">
+            <div class="process-container">
+                <h2 style="font-size: 3em; margin-bottom: 50px; text-align: center;">⚙️ 実施プロセス</h2>
+                <div class="process-timeline">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">🎵 楽曲制作フェーズ</div>
+                        <div class="step-period">毎月1-15日</div>
+                        <p>SunoAIを活用した楽曲制作。「今月のキーワード」をテーマに設定し、初心者向けワークショップも開催。</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">🎧 リスニング・投票フェーズ</div>
+                        <div class="step-period">毎月16-30日</div>
+                        <p>社内専用プラットフォームで全楽曲を公開。再生回数、いいね数、コメント数で総合評価。</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">🏆 表彰・フィードバックフェーズ</div>
+                        <div class="step-period">翌月1-5日</div>
+                        <p>月間ランキング発表と表彰式。1位には社長賞、全参加者には参加証明書を発行。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド7: ROI・投資効果 -->
+        <div class="slide slide7">
+            <div class="roi-container">
+                <h2 style="font-size: 3em; margin-bottom: 30px;">💰 投資効果とROI</h2>
+                <div class="roi-stats">
+                    <div class="roi-stat">
+                        <span class="roi-number">50万円</span>
+                        <div class="roi-label">プラットフォーム構築</div>
+                    </div>
+                    <div class="roi-stat">
+                        <span class="roi-number">30万円</span>
+                        <div class="roi-label">SunoAIライセンス（年間）</div>
+                    </div>
+                    <div class="roi-stat">
+                        <span class="roi-number">20万円</span>
+                        <div class="roi-label">運営・表彰費用（月間）</div>
+                    </div>
+                    <div class="roi-stat">
+                        <span class="roi-number">833円</span>
+                        <div class="roi-label">従業員1人あたり月額</div>
+                    </div>
+                </div>
+                <div class="roi-calculation">
+                    <h3 style="font-size: 2em; margin-bottom: 20px;">📊 組織活性化指標（OVI）による効果測定</h3>
+                    <p style="font-size: 1.3em;">従業員満足度向上率 × 部署間コミュニケーション増加率 × 創新提案件数増加率 = <strong>定量的ROI算出</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド8: 成功事例・未来ビジョン -->
+        <div class="slide slide8">
+            <div class="vision-container">
+                <h2 style="font-size: 3em; margin-bottom: 30px; color: #2d3748;">🌟 未来ビジョン</h2>
+                <div class="vision-cards">
+                    <div class="vision-card">
+                        <h3>🎤 Voice of Values企画</h3>
+                        <p style="font-size: 1.2em;">企業理念をテーマにした楽曲制作月間。経営陣も参加し、組織の方向性を音楽で表現する革新的な取り組み。</p>
+                    </div>
+                    <div class="vision-card">
+                        <h3>🌐 グローバル展開</h3>
+                        <p style="font-size: 1.2em;">海外拠点との音楽交流により、グローバルな一体感を醸成。文化的多様性を楽しみながら組織統合を促進。</p>
+                    </div>
+                </div>
+                <div style="margin-top: 40px; padding: 40px; background: rgba(255,255,255,0.8); border-radius: 20px;">
+                    <h3 style="font-size: 2em; margin-bottom: 20px; color: #2d3748;">🎯 3年後のビジョン</h3>
+                    <p style="font-size: 1.3em; color: #4a5568;">HARMONY PROJECTが企業文化の中核となり、創造性あふれる組織として業界をリードする存在に</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド9: Call to Action -->
+        <div class="slide slide9">
+            <div class="cta-container">
+                <h1 class="cta-title">🚀 今こそ、始めよう</h1>
+                <p class="cta-description">
+                    音楽は人々の心を繋ぐ最も自然で強力なツールです。<br>
+                    HARMONY PROJECTで、貴社の組織改革の新たな一歩を踏み出しませんか？
+                </p>
+                <div style="margin: 40px 0;">
+                    <div style="font-size: 1.5em; margin-bottom: 30px;">
+                        ✨ 創造性あふれる職場<br>
+                        🤝 多様性を称える文化<br>
+                        🎵 音楽が紡ぐ新たな絆
+                    </div>
+                </div>
+                <a href="#contact" class="cta-button">詳細相談・試験導入のご提案</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ナビゲーション -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+    </div>
+
+    <!-- スライドインジケーター -->
+    <div class="slide-indicator">
+        <div class="indicator-dot active" onclick="currentSlide(1)"></div>
+        <div class="indicator-dot" onclick="currentSlide(2)"></div>
+        <div class="indicator-dot" onclick="currentSlide(3)"></div>
+        <div class="indicator-dot" onclick="currentSlide(4)"></div>
+        <div class="indicator-dot" onclick="currentSlide(5)"></div>
+        <div class="indicator-dot" onclick="currentSlide(6)"></div>
+        <div class="indicator-dot" onclick="currentSlide(7)"></div>
+        <div class="indicator-dot" onclick="currentSlide(8)"></div>
+        <div class="indicator-dot" onclick="currentSlide(9)"></div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 1;
+        const totalSlides = 9;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.indicator-dot');
+            
+            if (n > totalSlides) currentSlideIndex = 1;
+            if (n < 1) currentSlideIndex = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[currentSlideIndex - 1].classList.add('active');
+            dots[currentSlideIndex - 1].classList.add('active');
+            
+            // ナビゲーションボタンの状態更新
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 1;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === totalSlides;
+            
+            // アニメーション効果
+            const activeSlide = slides[currentSlideIndex - 1];
+            const elements = activeSlide.querySelectorAll('.problem-item, .stat-large, .feature-card, .effect-card, .process-step, .roi-stat, .vision-card');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    element.style.transition = 'all 0.6s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100 + 200);
+            });
+        }
+
+        function changeSlide(n) {
+            currentSlideIndex += n;
+            showSlide(currentSlideIndex);
+        }
+
+        function currentSlide(n) {
+            currentSlideIndex = n;
+            showSlide(currentSlideIndex);
+        }
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            } else if (event.key === 'Escape') {
+                currentSlide(1);
+            }
+        });
+
+        // タッチ/スワイプ対応
+        let startX = 0;
+        let endX = 0;
+
+        document.addEventListener('touchstart', function(event) {
+            startX = event.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(event) {
+            endX = event.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const threshold = 50;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    changeSlide(1); // 右スワイプ = 次へ
+                } else {
+                    changeSlide(-1); // 左スワイプ = 前へ
+                }
+            }
+        }
+
+        // 自動スライドショー（オプション）
+        let autoSlideInterval;
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                if (currentSlideIndex < totalSlides) {
+                    changeSlide(1);
+                } else {
+                    currentSlide(1);
+                }
+            }, 10000); // 10秒間隔
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // ページ読み込み時の初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(currentSlideIndex);
+            
+            // ホバー時に自動スライド停止
+            document.querySelector('.presentation-container').addEventListener('mouseenter', stopAutoSlide);
+            document.querySelector('.presentation-container').addEventListener('mouseleave', startAutoSlide);
+            
+            // 各要素のホバーエフェクト強化
+            const interactiveElements = document.querySelectorAll('.problem-item, .stat-large, .feature-card, .effect-card, .process-step, .roi-stat, .vision-card');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    this.style.transform = this.style.transform.includes('scale') ? this.style.transform : this.style.transform + ' scale(1.02)';
+                });
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = this.style.transform.replace(' scale(1.02)', '');
+                });
+            });
+
+            // フルスクリーンモード切り替え
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'F11') {
+                    event.preventDefault();
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                }
+            });
+        });
+
+        // プレゼンテーションモード
+        function togglePresentationMode() {
+            const navControls = document.querySelector('.nav-controls');
+            const slideIndicator = document.querySelector('.slide-indicator');
+            
+            if (navControls.style.display === 'none') {
+                navControls.style.display = 'flex';
+                slideIndicator.style.display = 'flex';
+            } else {
+                navControls.style.display = 'none';
+                slideIndicator.style.display = 'none';
+            }
+        }
+
+        // Pキーでプレゼンテーションモード切り替え
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'p' || event.key === 'P') {
+                togglePresentationMode();
+            }
+        });
+
+        // スライドごとの特別なアニメーション
+        function addSlideSpecificAnimations() {
+            const slide1 = document.querySelector('.slide1');
+            const slide3 = document.querySelector('.slide3');
+            
+            // タイトルスライドの特別効果
+            if (slide1.classList.contains('active')) {
+                const title = slide1.querySelector('h1');
+                title.style.animation = 'float 3s ease-in-out infinite';
+            }
+            
+            // 統計スライドの数字カウントアップ
+            if (slide3.classList.contains('active')) {
+                const statNumbers = slide3.querySelectorAll('.stat-number-large');
+                statNumbers.forEach(number => {
+                    if (number.textContent === '95%') {
+                        animateNumber(number, 0, 95, '%');
+                    }
+                });
+            }
+        }
+
+        function animateNumber(element, start, end, suffix = '') {
+            const duration = 2000;
+            const increment = (end - start) / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + suffix;
+            }, 16);
+        }
+
+        // パフォーマンス最適化
+        function optimizePerformance() {
+            const slides = document.querySelectorAll('.slide:not(.active)');
+            slides.forEach(slide => {
+                slide.style.visibility = 'hidden';
+            });
+            
+            const activeSlide = document.querySelector('.slide.active');
+            activeSlide.style.visibility = 'visible';
+        }
+
+        // スライド変更時にパフォーマンス最適化を実行
+        const originalShowSlide = showSlide;
+        showSlide = function(n) {
+            originalShowSlide.call(this, n);
+            optimizePerformance();
+            addSlideSpecificAnimations();
+        };
+    </script>
+</body>
+</html>
