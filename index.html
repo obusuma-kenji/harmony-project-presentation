@@ -267,6 +267,22 @@
             color: #666;
         }
         
+        .video-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+        
+        .video-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
         @media (max-width: 768px) {
             .comparison-grid {
                 grid-template-columns: 1fr;
@@ -343,6 +359,7 @@
                         <source src="ballad.webm" type="video/webm">
                         お使いのブラウザは動画タグをサポートしていません。
                     </video>
+                    <a href="ballad.mp4" class="video-link">動画を直接開く</a>
                     <div class="video-description">
                         沈静的で内省的な音楽が<br>同じ歌詞に深い悲しみと共感を与える
                     </div>
@@ -355,6 +372,7 @@
                         <source src="dance.webm" type="video/webm">
                         お使いのブラウザは動画タグをサポートしていません。
                     </video>
+                    <a href="dance.mp4" class="video-link">動画を直接開く</a>
                     <div class="video-description">
                         アップテンポなビートが<br>絶望を希望とエネルギーに変換
                     </div>
@@ -367,6 +385,7 @@
                         <source src="performance.webm" type="video/webm">
                         お使いのブラウザは動画タグをサポートしていません。
                     </video>
+                    <a href="performance.mp4" class="video-link">動画を直接開く</a>
                     <div class="video-description">
                         視覚的演出との組み合わせが<br>さらに新しい意味を創出
                     </div>
